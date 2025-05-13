@@ -596,11 +596,12 @@ int playRoulette(Wallet& chips) {
 		else if (menuChoice == 4) {
 
 			cout << "\n\n\n					Have a great day, you won: " << chips.getWinnings() << "\n\n\n\n";       // Finish to show how much money player earned from Roulette
-
+			system("pause");
+			system("cls");
 			return chips.getBalance();
 
 		}
 		
 	}
-
+	
 }

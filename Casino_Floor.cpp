@@ -61,7 +61,7 @@ void welcomeMenu() {
 
 }
 
-string userLogin(Wallet& chips) {
+string userLogIn(Wallet& chips) {
 
 	fstream userFile;					 // Initializes the userFile
 	string userName;				    // Initializes variable to hold userName
@@ -103,6 +103,19 @@ string userLogin(Wallet& chips) {
 	return userName;
 }
 
+void userLogOut(Wallet& chips, string userName) {
+
+	fstream userFile;
+
+	userFile.open(userName + "_login.txt", ios::out);
+
+	if (userFile.is_open()) {
+		userFile << chips.getBalance();
+		userFile.close();
+	}
+
+}
+
 int main() {
 	Wallet chips;					   // Initializes the Wallet object chips
 	string userName;				  // Initializes a string to hold the users name.
@@ -110,7 +123,7 @@ int main() {
 	
 	welcomeMenu();										 // Calls the welcomeMenu() function to display the ASCII art welcome
 
-	userName = userLogin(chips);                       // Runs the userLogin function to check if the user is first time player or returning player
+	userName = userLogIn(chips);                       // Runs the userLogin function to check if the user is first time player or returning player
 
 	// Main game loop
 	while (true) {
@@ -143,10 +156,13 @@ int main() {
 		else if (menuChoice == 4) {
 
 			cout << "					Have a nice day " << userName << ". Please come again soon.\n\n";
+			userLogOut(chips, userName);
 			break;
 		
 		}
 	}
+	
+	
 
 	system("pause");	//Pause console.
 	return 0;		   //Terminated without errors.
