@@ -15,6 +15,7 @@ using namespace std;		       //Using standard library.
 #include <vector>            // Include library for vector functions.
 #include "Wallet.h"         // Include file to access the players available money.
 #include "Roulette.h"      // Include file to access the Roulette game
+//#include "BlackJack.h"    // Include file to access the BlackJack game
 
 // Function to check if the file already exists or not
 bool userExists(const string& fileName) {
@@ -61,6 +62,16 @@ void welcomeMenu() {
 
 }
 
+void welcomeBack() {
+
+	cout << " __        __   _                            ____             _    " << endl;
+	cout << " \\ \\      / /__| | ___ ___  _ __ ___   ___  | __ )  __ _  ___| | __" << endl;
+	cout << "  \\ \\ /\\ / / _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\ |  _ \\ / _` |/ __| |/ /" << endl;
+	cout << "   \\ V  V /  __/ | (_| (_) | | | | | |  __/ | |_) | (_| | (__|   < " << endl;
+	cout << "    \\_/\\_/ \\___|_|\\___\\___/|_| |_| |_|\\___| |____/ \\__,_|\\___|_|\\_\\" << endl;
+
+}
+
 string userLogIn(Wallet& chips) {
 
 	fstream userFile;					 // Initializes the userFile
@@ -72,7 +83,7 @@ string userLogIn(Wallet& chips) {
 	// Checks if it is a returning patron, if so then output message welcoming back the patron and then set the balance to their balance in their file.
 	if (userExists(userName + "_login.txt")) {
 
-		cout << "\n\n					Welcome back to the Casino " << userName << ". Please enjoy your time in the Casino.\n";
+		cout << "\n\n			  Welcome back to the Casino " << userName << ". Please enjoy your time in the Casino.\n";
 
 		userFile.open(userName + "_login.txt", ios::in);
 
@@ -93,7 +104,7 @@ string userLogIn(Wallet& chips) {
 
 		if (userFile.is_open()) {
 
-			cout << "I see that this is your first time here. Here are 100 free chips on the house for you. Please enjoy your time in the Casino.\n";
+			cout << "\n\n			  I see that this is your first time here. Here are 100 free chips on the house for you.\n			  Please enjoy your time in the Casino.\n";
 			chips.setBalance(100);
 			userFile << chips.getBalance();
 			userFile.close();
@@ -125,14 +136,18 @@ int main() {
 
 	userName = userLogIn(chips);                       // Runs the userLogin function to check if the user is first time player or returning player
 
+
+
 	// Main game loop
 	while (true) {
 
-		menuChoice = mainMenu();						 // Assigns the menuChoice with what the mainMenu function returns. 
+		menuChoice = mainMenu();						 // Assigns the menuChoice with what the mainMenu function returns.
 		
 		// Conditional to check if the user chose to play BlackJack
 		if (menuChoice == 1) {				
 
+			//system("cls");
+			//playBlackJack(chips);					// Start BlackJack
 			cout << "FIX_ME: Start BlackJack";
 
 		}
@@ -142,14 +157,14 @@ int main() {
 
 			system("cls");
 			playRoulette(chips);					// Start Roulette
-
+			welcomeBack();
 		}
 		
 		// Conditional to check if the user chose to look at their balance
 		else if (menuChoice == 3) {
 
 			cout << "					Current Balance: " << chips.getBalance() << " chips.\n\n";		
-
+			
 		}
 		
 		// Conditional to check if the user chose to leave the Casino
