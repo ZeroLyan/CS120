@@ -15,7 +15,7 @@ using namespace std;		       //Using standard library.
 #include <vector>            // Include library for vector functions.
 #include "Wallet.h"         // Include file to access the players available money.
 #include "Roulette.h"      // Include file to access the Roulette game
-//#include "BlackJack.h"    // Include file to access the BlackJack game
+#include "BlackjackFunction.h"    // Include file to access the BlackJack game
 
 // Function to check if the file already exists or not
 bool userExists(const string& fileName) {
@@ -43,7 +43,7 @@ int mainMenu() {
 
 }
 
-void welcomeMenu() {
+void welcomeMenuASCII() {
 	
 	// Outputs the ASCII Art for the greeting: Welcome To
 	cout << "__        __   _                            _       " << endl;
@@ -132,11 +132,9 @@ int main() {
 	string userName;				  // Initializes a string to hold the users name.
 	int menuChoice;					 // Initializes variable to hold the user menu choices.
 	
-	welcomeMenu();										 // Calls the welcomeMenu() function to display the ASCII art welcome
+	welcomeMenuASCII();										 // Calls the welcomeMenu() function to display the ASCII art welcome
 
 	userName = userLogIn(chips);                       // Runs the userLogin function to check if the user is first time player or returning player
-
-
 
 	// Main game loop
 	while (true) {
@@ -146,9 +144,9 @@ int main() {
 		// Conditional to check if the user chose to play BlackJack
 		if (menuChoice == 1) {				
 
-			//system("cls");
-			//playBlackJack(chips);					// Start BlackJack
-			cout << "FIX_ME: Start BlackJack";
+			system("cls");
+			startGameBlackJack(chips, chips.getBalance());					// Start BlackJack
+			//cout << "FIX_ME: Start BlackJack";
 
 		}
 		
@@ -176,9 +174,6 @@ int main() {
 		
 		}
 	}
-	
-	
 
-	system("pause");	//Pause console.
 	return 0;		   //Terminated without errors.
 }
