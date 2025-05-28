@@ -27,7 +27,6 @@ int Wallet::areTheyBroke(int currentBalance) {
 	// Conditional that checks if the users balance drops to 0 or lower
 	if (currentBalance <= 0) {
 
-		cout << "\n\n\n					GAME OVER!! You ran out of chips. Have a nice day.\n\n\n";    // Outputs the game over screen.
 		return 0;
 	}
 

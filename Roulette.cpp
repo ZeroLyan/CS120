@@ -9,12 +9,12 @@ Description: This program allows the user to play the game of Roulette.
 using namespace std;		  //Using standard library.
 
 // Include libraries used here.
-#include <iostream>		   //Include library for console Input/Output.
-#include <random>         // Include library for pseudo-random number generation.
-#include <string>        // Include library for string functions.
-#include <vector>       // Include library for vector functions.
-#include "Wallet.h"    // Include file to access the players available money.
-#include "Roulette.h" // Include file to access the functions for the game
+#include <iostream>		        //Include library for console Input/Output.
+#include <random>              // Include library for pseudo-random number generation.
+#include <string>             // Include library for string functions.
+#include <vector>            // Include library for vector functions.
+#include "Wallet.h"         // Include file to access the players available money.
+#include "Roulette.h"      // Include file to access the functions for the game
 
 // Randomly generates a number from -1 - 36 and returns that value. In this case -1 is used to represent the 00 result.
 int rollTheWheel() {
@@ -324,8 +324,12 @@ int playRoulette(Wallet& chips) {
 		int even;													// Variable to determine whether the user bet on odds or evens.	
 		int winnings;
 		
+		if (chips.areTheyBroke(chips.getBalance()) == 0) {								    // Conditional to check the players balance and breaks the loop if the areTheyBroke function returns 0.
+			
+			cout << "\n\n\n					GAME OVER!! You ran out of chips.\n\n\n";     // Outputs the game over screen.
+			break;																		 // Breaks game loop sending user back to casino floor screen		
 		
-		if (chips.areTheyBroke(chips.getBalance()) == 0) { break; }          // Conditional to check the players balance and breaks the loop if the areTheyBroke function returns 0.
+		}         
 
 		menuChoice = serviceMenu();										 // Calls the service menu to continue the game.
 		

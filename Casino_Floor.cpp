@@ -6,15 +6,15 @@ Date: Date you created this program.
 Description: Describe with a short paragraph the purpose of your program or what it does in general terms.
 */
 
-using namespace std;		       //Using standard library.
-
-#include <fstream>               // Include library for streaming files
-#include <iostream>		        //Include library for console Input/Output.
-#include <random>              // Include library for pseudo-random number generation.
-#include <string>             // Include library for string functions.
-#include <vector>            // Include library for vector functions.
-#include "Wallet.h"         // Include file to access the players available money.
-#include "Roulette.h"      // Include file to access the Roulette game
+using namespace std;	        	       //Using standard library.
+						        
+#include <fstream>                       // Include library for streaming files
+#include <iostream>		                //Include library for console Input/Output.
+#include <random>                      // Include library for pseudo-random number generation.
+#include <string>                     // Include library for string functions.
+#include <vector>                    // Include library for vector functions.
+#include "Wallet.h"                 // Include file to access the players available money.
+#include "Roulette.h"              // Include file to access the Roulette game
 #include "BlackjackFunction.h"    // Include file to access the BlackJack game
 
 // Function to check if the file already exists or not
@@ -43,6 +43,7 @@ int mainMenu() {
 
 }
 
+// Function that prints out the ASCII for the welcome menu
 void welcomeMenuASCII() {
 	
 	// Outputs the ASCII Art for the greeting: Welcome To
@@ -62,6 +63,7 @@ void welcomeMenuASCII() {
 
 }
 
+// Function that prints the welcome back ASCII art 
 void welcomeBack() {
 
 	cout << " __        __   _                            ____             _    " << endl;
@@ -72,13 +74,14 @@ void welcomeBack() {
 
 }
 
+// Function to check if the player already has an existing file to pull a balance from or not and takes in a wallet object by reference
 string userLogIn(Wallet& chips) {
 
 	fstream userFile;					 // Initializes the userFile
 	string userName;				    // Initializes variable to hold userName
 
 	cout << "\n\n\n					Enter your Initials: ";									// Put after Welcome to the Casino. Ask for their Initials.
-	cin >> userName;										           // Grab the inputted initials
+	cin >> userName;										                               // Grab the inputted initials
 
 	// Checks if it is a returning patron, if so then output message welcoming back the patron and then set the balance to their balance in their file.
 	if (userExists(userName + "_login.txt")) {
@@ -89,11 +92,11 @@ string userLogIn(Wallet& chips) {
 
 		if (userFile.is_open()) {
 
-			string line;
+			string line;																// Initializes a string variable 
 
-			while (getline(userFile, line)) { chips.setBalance(stoi(line)); }
+			while (getline(userFile, line)) { chips.setBalance(stoi(line)); }		  // Gets the balance from the .txt file and converts it to an integer and sets the players balance to that integer
 
-			userFile.close();
+			userFile.close();														// Closes the file
 		}
 	}
 
@@ -114,6 +117,7 @@ string userLogIn(Wallet& chips) {
 	return userName;
 }
 
+// Writes to the user's file when they leave the casino to save their balance for next time.
 void userLogOut(Wallet& chips, string userName) {
 
 	fstream userFile;
@@ -132,9 +136,9 @@ int main() {
 	string userName;				  // Initializes a string to hold the users name.
 	int menuChoice;					 // Initializes variable to hold the user menu choices.
 	
-	welcomeMenuASCII();										 // Calls the welcomeMenu() function to display the ASCII art welcome
+	welcomeMenuASCII();										   // Calls the welcomeMenu() function to display the ASCII art welcome
 
-	userName = userLogIn(chips);                       // Runs the userLogin function to check if the user is first time player or returning player
+	userName = userLogIn(chips);                             // Runs the userLogin function to check if the user is first time player or returning player
 
 	// Main game loop
 	while (true) {
@@ -144,24 +148,46 @@ int main() {
 		// Conditional to check if the user chose to play BlackJack
 		if (menuChoice == 1) {				
 
-			system("cls");
-			startGameBlackJack(chips, chips.getBalance());					// Start BlackJack
-			//cout << "FIX_ME: Start BlackJack";
+			if (chips.areTheyBroke(chips.getBalance()) == 0) { cout << "					You have no chips to play. Please come back when you have chips to play.\n\n"; }
+
+			else {
+				system("cls");
+				startGameBlackJack(chips, chips.getBalance());					// Start BlackJack
+				welcomeBack();
+			}
 
 		}
 		
 		// Conditional to check if the user chose to play BlackJack
 		else if (menuChoice == 2) {
 
-			system("cls");
-			playRoulette(chips);					// Start Roulette
-			welcomeBack();
+			if (chips.areTheyBroke(chips.getBalance()) == 0) { cout << "					You have no chips to play. Please come back when you have chips to play.\n\n"; }
+
+			else {
+				system("cls");
+				playRoulette(chips);					// Start Roulette
+				welcomeBack();
+			}
 		}
 		
 		// Conditional to check if the user chose to look at their balance
 		else if (menuChoice == 3) {
 
-			cout << "					Current Balance: " << chips.getBalance() << " chips.\n\n";		
+			cout << "					1. Check Balance  2. Get More Chips\n					What would you like to do: ";
+			menuChoice = inputChecker(0, 0);
+			if (menuChoice == 1) { cout << "					Current Balance: " << chips.getBalance() << " chips.\n\n"; }
+
+			else {
+				if (chips.areTheyBroke(chips.getBalance()) == 0)
+				{
+					chips.setBalance(100);
+					cout << "					100 chips have been transferred to your current balance.";
+				}
+
+				else { cout << "					You still have chips. Please come back when you run out."; }
+			
+			}
+				
 			
 		}
 		
